@@ -1,0 +1,24 @@
+#include<iostream>
+#include<thread>
+using namespace std;
+
+void Process1()
+{
+	this_thread::sleep_for(chrono::milliseconds(10));
+	cout << "Executing Process1" << endl;
+}
+
+void Process2(thread th)
+{
+	th.join();
+	cout << "Executing Process2, Completing Process1 thread" << endl;
+}
+
+int main()
+{
+	thread t1(Process1);
+	thread t2(Process2, move(t1));
+	//....
+	t2.join();
+	return 0;
+}
